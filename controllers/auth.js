@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const pool = require('../sql/connection')
 const { handleSQLError } = require('../sql/error')
+require('dotenv').config()
 
 // for bcrypt
 const saltRounds = 10
@@ -31,7 +32,7 @@ const login = (req, res) => {
   axios(`https://${process.env.AUTH0_DOMAIN}/oauth/token`, {
     method: 'POST',
     headers: {
-      'content-type': 'application/json'
+      'Content-Type': 'application/json'
     },
     data: {
       grant_type: 'password',
@@ -39,7 +40,6 @@ const login = (req, res) => {
       password: password,
       audience: process.env.AUTH0_IDENTITY,
       connection: 'Username-Password-Authentication',
-      scope: 'openid',
       client_id: process.env.AUTH0_CLIENT_ID,
       client_secret: process.env.AUTH0_CLIENT_SECRET
     }
